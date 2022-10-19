@@ -1,0 +1,96 @@
+From d0cba8b2f6905dfc08cbb4ccc4006e3234564449 Mon Sep 17 00:00:00 2001
+From: Balint Reczey <balint@balintreczey.hu>
+Date: Sun, 30 Jun 2013 02:39:31 +0200
+Subject: [PATCH 1/2] Fix options parsing in snacc
+
+The crashes in the parsing logic has been reported by The Mayhem Team
+at http://www.forallsecure.com/bug-reports/6f5f79ad3f80cffe072b7133a3b8224d1b18d2b5
+---
+ compiler/core/snacc.c |   27 ++++++++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
+
+diff --git a/compiler/core/snacc.c b/compiler/core/snacc.c
+index d0e4923..96b2683 100644
+--- a/compiler/core/snacc.c
++++ b/compiler/core/snacc.c
+@@ -448,11 +448,15 @@ int main PARAMS ((argc, argv),
+                         usefulTypeModFileName = &argv[currArg][2];
+                         currArg++;
+                     }
+-                    else
++                    else if (currArg+1 < argc)
+                     {
+                         usefulTypeModFileName = argv[currArg+1];
+                         currArg += 2;
+                     }
++                    else /* no file to parse after -u */
++                    {
++                        goto error;
++                    }
+                 break;
+ 
+                 case 'l':
+@@ -461,11 +465,16 @@ int main PARAMS ((argc, argv),
+                         longJmpVal = atoi (&argv[currArg][2]);
+                         currArg++;
+                     }
+-                    else
++                    else if (currArg+1 < argc)
+                     {
+                         longJmpVal = atoi (argv[currArg+1]);
+                         currArg += 2;
+                     }
++                    else /* no number to parse after -l */
++                    {
++                        goto error;
++		    }
++
+                 break;
+ 
+                 case 'T':
+@@ -476,11 +485,15 @@ int main PARAMS ((argc, argv),
+                         tblFileName = &argv[currArg][2];
+                         currArg++;
+                     }
+-                    else
++                    else if (currArg+1 < argc)
+                     {
+                         tblFileName = argv[currArg+1];
+                         currArg += 2;
+                     }
++                    else /* no file to parse after -T */
++                    {
++                        goto error;
++		    }
+                 break;
+ 
+ 
+@@ -492,11 +505,15 @@ int main PARAMS ((argc, argv),
+                             maxFileNameLenG = atoi (&argv[currArg][3]);
+                             currArg++;
+                         }
+-                        else
++                        else if (currArg+1 < argc)
+                         {
+                             maxFileNameLenG = atoi (argv[currArg+1]);
+                             currArg += 2;
+                         }
++                        else /* no parameter to parse after -mf */
++                        {
++			  goto error;
++                        }
+                         break;
+                     }
+ #if META
+@@ -535,7 +552,7 @@ int main PARAMS ((argc, argv),
+ 
+ error:
+                 default:
+-                    fprintf (stderr, "%s: ERROR---unknown cmd line option `%s'\n\n", argv[0], argv[currArg]);
++                    fprintf (stderr, "%s: ERROR---unknown or improperly used cmd line option `%s'\n\n", argv[0], argv[currArg]);
+                     Usage (argv[0], stderr);
+                     exit (1);
+             }
+-- 
+1.7.10.4
+

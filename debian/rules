@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+# hack to fix #746913, -O2 somehow breaks the build
+export DEB_CFLAGS_MAINT_APPEND = -O0
+
+%:
+	dh $@ --with autoreconf
+
+DB2MAN = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+
+override_dh_auto_build:
+	dh_auto_build
+	(cd debian && \
+		xsltproc --nonet --novalid $(DB2MAN) berdecode.dbk && \
+		xsltproc --nonet --novalid $(DB2MAN) snacc-config.dbk)
+
+override_dh_auto_clean:
+	dh_auto_clean
+
+override_dh_install:
+	dh_install
+	rm -rf $(CURDIR)/debian/snacc/usr/share/doc/snacc-doc/ \
+	$(CURDIR)/debian/snacc/usr/share/man/man1/snacced.1*

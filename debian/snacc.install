@@ -1,0 +1,9 @@
+usr/bin/berdecode
+usr/bin/mkchdr
+usr/bin/ptbl
+usr/bin/pval
+usr/bin/snacc
+usr/bin/snacc-config
+usr/include/snacc/asn1
+usr/share/aclocal/snacc.m4
+usr/share/man/man1

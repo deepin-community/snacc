@@ -1,0 +1,14 @@
+usr/include/snacc/c
+usr/include/snacc/c++
+usr/lib/*/libasn1c++.a
+usr/lib/*/libasn1c++.so
+usr/lib/*/libasn1cCebuf.a
+usr/lib/*/libasn1cCebuf.so
+usr/lib/*/libasn1cebuf.a
+usr/lib/*/libasn1cebuf.so
+usr/lib/*/libasn1cmbuf.a
+usr/lib/*/libasn1cmbuf.so
+usr/lib/*/libasn1csbuf.a
+usr/lib/*/libasn1csbuf.so
+usr/lib/*/libasn1ctbl.a
+usr/lib/*/libasn1ctbl.so
