@@ -1,3 +1,9 @@
+snacc (1.3.1-7deepin0) unstable; urgency=medium
+
+  * No source change upload against GCC 12.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 20 Sep 2024 12:18:47 +0800
+
 snacc (1.3.1-7) unstable; urgency=medium
 
   * Build-depend on libfl-dev (Closes: #846447)
